@@ -72,8 +72,8 @@ export default function Home() {
       </div>
       <div className="flex flex-col place-content-center relative inter bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-black via-black to-slate-800 items-center min-h-screen border-t-8 border-gray-900">
         <div className={font1.className}>
-          <h1 className="text-8xl font-black text-cyan-900">
-            /QR-Code<span className="text-slate-500 font-bold">Creator</span>
+          <h1 className="text-8xl font-black text-cyan-600">
+            /QR-Code<span className="text-slate-600 font-bold">Creator</span>
           </h1>
         </div>
         <h2 className="text-slate-300 text-xl mt-2">
