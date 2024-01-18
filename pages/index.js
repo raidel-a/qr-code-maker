@@ -1,118 +1,111 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import axios from 'axios';
+import { Figtree } from 'next/font/google';
+import Head from 'next/head';
+import { useState } from 'react';
+import SVG from 'react-inlinesvg';
 
-const inter = Inter({ subsets: ['latin'] })
+const font = Figtree({ subsets: ['latin'] });
 
 export default function Home() {
+  const [input, setInput] = useState('');
+  const [response, setResponse] = useState('');
+
+  const createQRCode = async () => {
+    try {
+      const res = await axios.get('/api/helloQR', {
+        params: { input },
+      });
+      setResponse(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const downloadQRcode = () => {
+    const url = window.URL.createObjectURL(new Blob([response]));
+    const urlObject = document.createElement('a');
+    urlObject.href = url;
+    urlObject.setAttribute('download', 'file.svg');
+    document.body.appendChild(urlObject);
+    urlObject.click();
+  };
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <body className={font.className}>
+      <div id="comma">
+        <svg
+          version="1.0"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 25 220 95"
+          preserveAspectRatio="xMidYMid meet"
+          onclick="window.open('https://github.com/raihven')"
+        >
+          <g
+            fill="rgb(0,55,75)"
+            transform="translate(0.000000,145.000000) scale(0.1,-0.1)"
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+            <path
+              d="M0 760 l0 -690 205 0 205 0 0 205 0 206 68 -3 67 -3 135 -202 135
+-202 233 -1 c127 0 232 3 232 8 -1 4 -72 110 -159 237 l-159 230 47 26 c25 15
+70 52 99 83 91 96 128 207 119 356 -14 238 -169 392 -435 430 -37 5 -230 10
+-429 10 l-363 0 0 -690z m747 311 c49 -23 73 -62 73 -123 0 -53 -28 -101 -72
+-125 -27 -14 -63 -18 -185 -21 l-153 -4 0 146 0 146 148 0 c123 0 154 -4 189
+-19z"
+              onClick={() => window.open('https://github.com/raihven')}
             />
-          </a>
-        </div>
+            <path
+              d="M1485 860 c-119 -36 -229 -145 -256 -252 -14 -57 -8 -86 27 -127 35
+-42 89 -43 126 -3 42 44 41 87 -3 137 -28 31 -30 39 -21 60 14 31 68 65 102
+65 14 0 39 -9 56 -19 30 -18 84 -80 84 -95 0 -5 -35 -58 -78 -120 -93 -131
+-99 -141 -111 -194 -13 -60 4 -122 46 -171 45 -53 80 -71 139 -71 97 0 198 82
+231 186 14 45 19 52 34 43 55 -29 154 9 202 78 32 46 32 51 8 83 -18 23 -21
+23 -38 9 -39 -35 -63 -41 -88 -25 -13 8 -73 86 -133 173 -106 153 -155 209
+-197 231 -32 15 -97 22 -130 12z m244 -409 c28 -41 51 -82 51 -90 -1 -35 -40
+-101 -72 -121 -49 -30 -81 -26 -116 15 -57 64 -50 130 24 241 43 64 37 66 113
+-45z"
+              onClick={() => window.open('https://github.com/raihven')}
+            />
+          </g>
+        </svg>
       </div>
+      <div className="flex flex-col place-content-center relative inter bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-black via-black to-slate-800 items-center min-h-screen border-t-8 border-gray-900">
+        <Head>
+          <title>QR Code Creator</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+        <h1 className="text-7xl font-black text-cyan-900">
+          /QR-Code<span className="text-slate-500 font-bold">Creator</span>
+        </h1>
+        <h2 className="text-slate-300 text-2xl mt-2">
+          Create a QR Code to share text or a link
+        </h2>
+
+        <input
+          type="text"
+          placeholder="Feed me (link or text please)"
+          className="mt-6 w-1/2 p-4 rounded text-slate-700"
+          onChange={(e) => setInput(e.target.value)}
+        ></input>
+        <button
+          className="mt-6 p-4 bg-slate-700 transition hover:opacity-90 hover:scale-105 active:scale-95 rounded text-slate-300 font-bold text-lg inline-flex"
+          onClick={() => createQRCode()}
+        >
+          Create
+        </button>
+
+        {response && (
+          <div className="mt-12">
+            <SVG src={response} />
+            <button
+              className="bg-slate-700 w-full transition text-neutral-300 text-xl p-3 rounded-b hover:rounded hover:opacity-90 hover:scale-105 font-bold active:scale-95"
+              onClick={() => downloadQRcode()}
+            >
+              Save
+            </button>
+          </div>
+        )}
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </body>
+  );
 }
