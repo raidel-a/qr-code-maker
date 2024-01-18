@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -24,11 +24,11 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
+} */
 
 #comma {
   position: absolute;
-  bottom:0px;
+  bottom: 0px;
   right: 14px;
   z-index: 10;
 }
@@ -40,4 +40,5 @@ body {
 #comma svg {
   width: 100px;
   height: 100px;
+  filter: drop-shadow(0 1px 8px rgb(35, 40, 55));
 }

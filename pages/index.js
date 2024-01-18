@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { Figtree } from 'next/font/google';
+import { Space_Mono, VT323 } from 'next/font/google';
 import Head from 'next/head';
 import { useState } from 'react';
 import SVG from 'react-inlinesvg';
 
-const font = Figtree({ subsets: ['latin'] });
+const font1 = VT323({ weight: '400', subsets: ['latin'] });
+const font2 = Space_Mono({ weight: ['400', '700'], subsets: ['latin'] });
 
 export default function Home() {
   const [input, setInput] = useState('');
@@ -29,9 +30,13 @@ export default function Home() {
     document.body.appendChild(urlObject);
     urlObject.click();
   };
-
   return (
-    <body className={font.className}>
+    <body className={font2.className}>
+      <Head>
+        <title>QR Code Creator</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <div id="comma">
         <svg
           version="1.0"
@@ -40,10 +45,7 @@ export default function Home() {
           preserveAspectRatio="xMidYMid meet"
           onclick="window.open('https://github.com/raihven')"
         >
-          <g
-            fill="rgb(0,55,75)"
-            transform="translate(0.000000,145.000000) scale(0.1,-0.1)"
-          >
+          <g transform="translate(0.000000,145.000000) scale(0.1,-0.1)">
             <path
               d="M0 760 l0 -690 205 0 205 0 0 205 0 206 68 -3 67 -3 135 -202 135
 -202 233 -1 c127 0 232 3 232 8 -1 4 -72 110 -159 237 l-159 230 47 26 c25 15
@@ -69,15 +71,12 @@ export default function Home() {
         </svg>
       </div>
       <div className="flex flex-col place-content-center relative inter bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-black via-black to-slate-800 items-center min-h-screen border-t-8 border-gray-900">
-        <Head>
-          <title>QR Code Creator</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-
-        <h1 className="text-7xl font-black text-cyan-900">
-          /QR-Code<span className="text-slate-500 font-bold">Creator</span>
-        </h1>
-        <h2 className="text-slate-300 text-2xl mt-2">
+        <div className={font1.className}>
+          <h1 className="text-8xl font-black text-cyan-900">
+            /QR-Code<span className="text-slate-500 font-bold">Creator</span>
+          </h1>
+        </div>
+        <h2 className="text-slate-300 text-xl mt-2">
           Create a QR Code to share text or a link
         </h2>
 
